@@ -5,6 +5,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.postgresql:postgresql:9.4-1206-jdbc42")
     }
 }
 plugins {
@@ -50,7 +51,6 @@ dependencies {
     compile("ch.qos.logback:logback-access:${logbackVersion}")
     compile("net.javacrumbs.shedlock:shedlock-spring:${shedlockVersion}")
     compile("net.javacrumbs.shedlock:shedlock-provider-jdbc-template:${shedlockVersion}")
-    compile("org.mariadb.jdbc:mariadb-java-client:${javaClientVersion}")
     compile("org.slf4j:jcl-over-slf4j:${slf4jVersion}")
     compile("net.rakugakibox.springbootext:spring-boot-ext-logback-access:${logbackAccessVersion}")
     compile("net.logstash.logback:logstash-logback-encoder:${logbackEncoderVersion}")
@@ -62,6 +62,7 @@ dependencies {
     compile("org.projectlombok:lombok:${lombokVersion}")
     compile("com.squareup.okhttp3:okhttp:${okHTTPVersion}")
     testCompile("junit:junit:4.12")
+    runtime 'org.postgresql:postgresql:9.4-1206-jdbc42'
     testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 }
 
