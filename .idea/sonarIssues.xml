@@ -8,6 +8,21 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/properties/default.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/properties/dev.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/com/peoplehum/urlshortener/common/controller/ApiAccessController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
       </map>
     </option>
   </component>
