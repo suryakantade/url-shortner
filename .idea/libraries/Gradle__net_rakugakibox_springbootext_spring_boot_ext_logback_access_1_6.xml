@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: net.rakugakibox.springbootext:spring-boot-ext-logback-access:1.6">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.rakugakibox.springbootext/spring-boot-ext-logback-access/1.6/b952f36a405080c34e0af1bb798ae8e5965d8879/spring-boot-ext-logback-access-1.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.rakugakibox.springbootext/spring-boot-ext-logback-access/1.6/e11aa896cf80b7215e5c66387f013bbc175453ee/spring-boot-ext-logback-access-1.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
