@@ -1,8 +1,8 @@
-package com.peoplehum.newproject.common.exception;
+package com.peoplehum.urlshortener.common.exception;
 
 import com.nethum.errorhandling.exception.NethumBaseException;
 import com.nethum.errorhandling.exception.error.AppErrorObject;
-import com.peoplehum.newproject.common.model.NewProjectStatusCode;
+import com.peoplehum.urlshortener.common.model.NewProjectStatusCode;
 import org.springframework.http.HttpStatus;
 
 /**

@@ -1,4 +1,4 @@
-package com.peoplehum.newproject.common.service;
+package com.peoplehum.urlshortener.common.service;
 
 import com.nethum.custom.annotation.model.ApiMapping;
 import com.nethum.custom.annotation.operation.Action;

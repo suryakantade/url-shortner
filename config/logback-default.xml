@@ -26,7 +26,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="com.peoplehum.newproject" level="INFO" additivity="false">
+	<logger name="com.peoplehum.urlshortener" level="INFO" additivity="false">
 		<appender-ref ref="consoleAppender" />
 		<appender-ref ref="dailyRollingFileAppender" />
 	</logger>

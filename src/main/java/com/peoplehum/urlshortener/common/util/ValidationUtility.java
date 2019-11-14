@@ -1,4 +1,4 @@
-package com.peoplehum.newproject.common.util;
+package com.peoplehum.urlshortener.common.util;
 
 import lombok.extern.slf4j.Slf4j;
 

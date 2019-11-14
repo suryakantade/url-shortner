@@ -15,10 +15,9 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: "jacoco"
-apply plugin: 'propertyFileCheck'
 
 jar {
-    baseName = 'new-project'
+    baseName = 'url-shortener'
     version =  '1.0.0-SNAPSHOT'
 }
 
@@ -62,8 +61,6 @@ dependencies {
     compile("org.apache.commons:commons-collections4:${commonsCollectionVersion}")
     compile("org.projectlombok:lombok:${lombokVersion}")
     compile("com.squareup.okhttp3:okhttp:${okHTTPVersion}")
-
-
     testCompile("junit:junit:4.12")
     testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 }
@@ -76,4 +73,3 @@ task wrapper(type: Wrapper) {
     gradleVersion = "${gradle4Version}"
 }
 
-build.dependsOn propertyFileCheck

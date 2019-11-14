@@ -1,4 +1,4 @@
-package com.peoplehum.newproject.common.constant;
+package com.peoplehum.urlshortener.common.constant;
 
 /**
  * Created by peoplehum on 12/12/18.

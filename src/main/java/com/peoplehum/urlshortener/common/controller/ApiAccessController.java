@@ -1,7 +1,7 @@
-package com.peoplehum.newproject.common.controller;
+package com.peoplehum.urlshortener.common.controller;
 
 import com.nethum.custom.annotation.model.ApiMapping;
-import com.peoplehum.newproject.common.service.ApiAccessService;
+import com.peoplehum.urlshortener.common.service.ApiAccessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;

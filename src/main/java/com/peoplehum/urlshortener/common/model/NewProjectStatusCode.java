@@ -1,4 +1,4 @@
-package com.peoplehum.newproject.common.model;
+package com.peoplehum.urlshortener.common.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.nethum.errorhandling.exception.error.AppCode;
