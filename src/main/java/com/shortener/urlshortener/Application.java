@@ -1,4 +1,4 @@
-package com.peoplehum.urlshortener;
+package com.shortener.urlshortener;
 
 import net.javacrumbs.shedlock.core.LockProvider;
 import net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateLockProvider;

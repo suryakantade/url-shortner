@@ -1,4 +1,4 @@
-package com.peoplehum.urlshortener.common.model;
+package com.shortener.urlshortener.common.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.nethum.errorhandling.exception.error.AppCode;
@@ -13,27 +13,27 @@ import java.util.stream.Stream;
 /**
  * Created by peoplehum on 21/11/18.
  */
-public enum NewProjectStatusCode implements AppCode<NewProjectStatusCode> {
+public enum UrlShortenerStatusCode implements AppCode<UrlShortenerStatusCode> {
 
   SUCCESS(1000, "SUCCESS"),
   PROCESSING_ERROR(999, "PROCESSING_ERROR"),
   DATA_VALIDATION_FAILED(45001, "DATA_VALIDATION_FAILED"),
   INVALID_CUSTOMER_SCOPE(45002, "INVALID_CUSTOMER_SCOPE");
 
-  private static Map<Integer, NewProjectStatusCode> FORMAT_MAP = Stream.of(NewProjectStatusCode.values())
+  private static Map<Integer, UrlShortenerStatusCode> FORMAT_MAP = Stream.of(UrlShortenerStatusCode.values())
       .collect(Collectors.toMap(s -> s.code, Function.identity()));
 
   private final int code;
 
   private final String desc;
 
-  NewProjectStatusCode(int code, String desc) {
+  UrlShortenerStatusCode(int code, String desc) {
     this.code = code;
     this.desc = desc;
   }
 
   @JsonCreator // This is the factory method and must be static
-  public static NewProjectStatusCode fromJson(CodeDesc codeDesc) {
+  public static UrlShortenerStatusCode fromJson(CodeDesc codeDesc) {
     return Optional.ofNullable(FORMAT_MAP.get(codeDesc.getCode()))
         .orElseThrow(() -> new IllegalArgumentException(codeDesc.toString()));
   }
@@ -72,8 +72,8 @@ public enum NewProjectStatusCode implements AppCode<NewProjectStatusCode> {
    * @return
    */
   @Override
-  public NewProjectStatusCode valueOf(int statusCode) {
-    for (NewProjectStatusCode status : values()) {
+  public UrlShortenerStatusCode valueOf(int statusCode) {
+    for (UrlShortenerStatusCode status : values()) {
       if (status.code == statusCode) {
         return status;
       }

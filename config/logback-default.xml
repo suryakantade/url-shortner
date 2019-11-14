@@ -19,14 +19,14 @@
 			<maxHistory>15</maxHistory>
 		</rollingPolicy>
 		<encoder class="net.logstash.logback.encoder.LogstashEncoder">
-			<customFields>{"app_name":"new-project","log_type":"app"}</customFields>
+			<customFields>{"app_name":"url-shortener","log_type":"app"}</customFields>
 			<includeCallerData>true</includeCallerData>
 			<timeZone>UTC</timeZone>
 
 		</encoder>
 	</appender>
 
-	<logger name="com.peoplehum.urlshortener" level="INFO" additivity="false">
+	<logger name="com.shortener.urlshortener" level="INFO" additivity="false">
 		<appender-ref ref="consoleAppender" />
 		<appender-ref ref="dailyRollingFileAppender" />
 	</logger>
