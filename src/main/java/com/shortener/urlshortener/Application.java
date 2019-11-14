@@ -5,20 +5,17 @@ import net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateLockProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.sql.DataSource;
 
-/**
- * Created by punit on 11/10/17.
- */
+
+
 @EnableSwagger2
-@SpringBootApplication(exclude = WebMvcAutoConfiguration.class,
-    scanBasePackages = {"com.peoplehum.newproject", "com.nethum.errorhandling",
-        "com.peoplehum.security"})
+@SpringBootApplication(
+    scanBasePackages = {"com.shortener.urlshortener"})
 public class Application {
   public static void main(String[] args) {
     SpringApplication.run(Application.class, args);

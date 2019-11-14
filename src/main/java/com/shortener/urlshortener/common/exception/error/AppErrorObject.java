@@ -15,7 +15,7 @@ public class AppErrorObject {
   private final Throwable throwable;
 
 
-  private AppErrorObject(Builder builder) {
+  public AppErrorObject(Builder builder) {
     if (builder.appCode == null || builder.httpStatus == null) {
       throw new NullPointerException("HttpStatus and app code cannot be null.");
     }

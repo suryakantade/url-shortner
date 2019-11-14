@@ -1,5 +1,6 @@
 package com.shortener.urlshortener.common.exception;
 
+import com.shortener.urlshortener.common.exception.error.AppErrorObject;
 import com.shortener.urlshortener.common.model.UrlShortenerStatusCode;
 import org.springframework.http.HttpStatus;
 
@@ -14,6 +15,7 @@ public class UrlShortenerException extends BaseException {
   public UrlShortenerException(UrlShortenerStatusCode statusCode)
   {
     super(new AppErrorObject.Builder().appCode(statusCode).HttpStatus(HttpStatus.OK).build());
+
   }
 
   /**

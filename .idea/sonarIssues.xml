@@ -43,6 +43,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/com/shortener/urlshortener/Application.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/com/shortener/urlshortener/common/constant/CommonConstant.java">
           <value>
             <set />
@@ -53,12 +58,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/com/shortener/urlshortener/common/exception/error/AppErrorObject.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/com/shortener/urlshortener/common/model/NewProjectResponseObject.java">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/com/shortener/urlshortener/common/model/UrlShortenerResponseObject.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/com/shortener/urlshortener/common/model/UrlShortenerStatusCode.java">
           <value>
             <set />
           </value>

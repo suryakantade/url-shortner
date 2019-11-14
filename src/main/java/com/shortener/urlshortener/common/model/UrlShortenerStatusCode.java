@@ -1,8 +1,8 @@
 package com.shortener.urlshortener.common.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.nethum.errorhandling.exception.error.AppCode;
-import com.nethum.errorhandling.exception.error.CodeDesc;
+import com.shortener.urlshortener.common.exception.error.AppCode;
+import com.shortener.urlshortener.common.exception.error.CodeDesc;
 
 import java.util.Map;
 import java.util.Optional;
@@ -10,9 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * Created by peoplehum on 21/11/18.
- */
+
 public enum UrlShortenerStatusCode implements AppCode<UrlShortenerStatusCode> {
 
   SUCCESS(1000, "SUCCESS"),
