@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @Builder
 public class RequestContext {
-  private Long clientId;
+  private Integer clientId;
   private String authenticationKey;
   private String refreshKey;
 }

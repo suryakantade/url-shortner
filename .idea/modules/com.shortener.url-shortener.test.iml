@@ -34,9 +34,9 @@
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-collections4:4.4" level="project" />
     <orderEntry type="library" name="Gradle: org.projectlombok:lombok:1.18.10" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:4.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.postgresql:postgresql:42.2.2" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-tomcat:2.1.9.RELEASE" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.postgresql:postgresql:9.4-1206-jdbc42" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate.validator:hibernate-validator:6.0.17.Final" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-webmvc:5.1.10.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-web:5.2.0.RELEASE" level="project" />

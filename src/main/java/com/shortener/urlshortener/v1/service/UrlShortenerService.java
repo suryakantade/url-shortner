@@ -14,4 +14,11 @@ public interface UrlShortenerService {
    */
   public UrlShortenerResponseObject<UrlShortenerModel> shortenUrl(RequestContext context,
       UrlShortenerModel urlShortenerModel);
+
+  /**
+   *
+   * @param token
+   * @return
+   */
+  public UrlShortenerModel validateAndFetchShortenedDetails(String token);
 }

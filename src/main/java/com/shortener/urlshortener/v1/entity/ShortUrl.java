@@ -1,36 +1,38 @@
 package com.shortener.urlshortener.v1.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.sql.Timestamp;
 
 @ToString(doNotUseGetters = true)
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity(name = "SHORT_URL")
 @Table
-public class ShortUrl {
+public class ShortUrl implements Serializable {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID")
   private Long id;
 
   @Column(name = "CLIENT_ID")
-  private Long clientId;
+  private Integer clientId;
 
   @Column(name = "REDIRECTED_URL")
   private String redirectedUrl;
@@ -39,10 +41,10 @@ public class ShortUrl {
   private String token;
 
   @Column(name = "IS_SINGLE_ACCESS")
-  private boolean isSingleAccess;
+  private Boolean isSingleAccess;
 
   @Column(name = "EXPIERY_TIME")
-  private Long expieryTime;
+  private Timestamp expieryTime;
 
   @Column(name = "ACCESS_COUNT")
   private Integer acccessCount;

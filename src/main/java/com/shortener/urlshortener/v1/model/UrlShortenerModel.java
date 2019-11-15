@@ -11,6 +11,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Arrays;
+
 @Slf4j
 @ToString(doNotUseGetters = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -18,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UrlShortenerModel {
   private Long id;
@@ -26,4 +29,11 @@ public class UrlShortenerModel {
   private String token;
   private Boolean isSingleAccess;
   private Long expieryTime;
+
+  public Boolean isValid(){
+    return !isAnyNull(this.getRedirectedUrl());
+  }
+  public Boolean isAnyNull(Object ...objects){
+    return Arrays.stream(objects).anyMatch(e->e==null);
+  }
 }
