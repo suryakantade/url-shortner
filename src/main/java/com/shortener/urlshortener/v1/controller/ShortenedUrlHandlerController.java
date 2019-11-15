@@ -1,20 +1,14 @@
 package com.shortener.urlshortener.v1.controller;
 
-import com.shortener.urlshortener.common.model.RequestContext;
-import com.shortener.urlshortener.common.model.UrlShortenerResponseObject;
 import com.shortener.urlshortener.v1.model.UrlShortenerModel;
 import com.shortener.urlshortener.v1.service.UrlShortenerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-
-import static com.shortener.urlshortener.common.constant.CommonConstant.VERSION_ONE;
 
 @RestController
 @CrossOrigin

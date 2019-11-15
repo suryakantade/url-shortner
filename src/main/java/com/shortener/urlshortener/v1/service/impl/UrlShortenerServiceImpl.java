@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 
 @Service("com.shortener.urlshortener.common.v1.service.impl.UrlShortenerServiceImpl")
@@ -67,6 +68,15 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
       log.error("No short url found for token : {}", token);
     }
     return urlShortenerModel;
+  }
+
+  @Override
+  public UrlShortenerResponseObject<List<ShortUrl>> findShortenedUrlList(RequestContext context) {
+    UrlShortenerResponseObject<List<ShortUrl>> responseObject =
+        new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
+    List<ShortUrl> shortUrls = shortUrlRepository.findByClientId(context.getClientId());
+    responseObject.setResponseObject(shortUrls);
+    return responseObject;
   }
 
   public static void main(String[] args) throws JsonProcessingException {
