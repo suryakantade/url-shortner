@@ -27,7 +27,7 @@ import static com.shortener.urlshortener.common.constant.CommonConstant.VERSION_
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = VERSION_ONE)
+@RequestMapping
 @Slf4j
 public class ShortenedUrlHandlerController {
 
