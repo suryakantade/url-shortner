@@ -1,7 +1,7 @@
 package com.shortener.urlshortener.v1.controller;
 
+import com.shortener.urlshortener.common.util.GenericUtility;
 import com.shortener.urlshortener.v1.model.UrlShortenerModel;
-import com.shortener.urlshortener.v1.service.UrlShortenerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 
 @RestController
@@ -23,9 +22,10 @@ import java.io.IOException;
 @Slf4j
 public class ShortenedUrlHandlerController {
 
+
   @Autowired
-  @Qualifier("com.shortener.urlshortener.common.v1.service.impl.UrlShortenerServiceImpl")
-  private UrlShortenerService urlShortenerService;
+  @Qualifier("com.shortener.urlshortener.common.util.GenericUtility")
+  private GenericUtility genericUtility;
 
   @GetMapping(value = "/{token}",
       produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,9 +33,8 @@ public class ShortenedUrlHandlerController {
       HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
       @PathVariable("token") String token) {
     log.info("recievied request to redirect to destination for token: {}", token);
-
     UrlShortenerModel urlShortenerModel =
-        urlShortenerService.validateAndFetchShortenedDetails(token);
+        genericUtility.findShortenerService(token).validateAndFetchShortenedDetails(token);
     if(null != urlShortenerModel){
       try {
         httpServletResponse.sendRedirect(urlShortenerModel.getRedirectedUrl());

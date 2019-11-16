@@ -3,9 +3,10 @@ package com.shortener.urlshortener.v1.controller;
 
 import com.shortener.urlshortener.common.model.RequestContext;
 import com.shortener.urlshortener.common.model.UrlShortenerResponseObject;
+import com.shortener.urlshortener.common.util.GenericUtility;
 import com.shortener.urlshortener.v1.entity.ShortUrl;
+import com.shortener.urlshortener.v1.enums.ServiceType;
 import com.shortener.urlshortener.v1.model.UrlShortenerModel;
-import com.shortener.urlshortener.v1.service.UrlShortenerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,13 +31,13 @@ import static com.shortener.urlshortener.common.constant.CommonConstant.VERSION_
 @Slf4j
 public class UrlShortenerController {
 
-
   @Autowired
-  @Qualifier("com.shortener.urlshortener.common.v1.service.impl.UrlShortenerServiceImpl")
-  private UrlShortenerService urlShortenerService;
+  @Qualifier("com.shortener.urlshortener.common.util.GenericUtility")
+  private GenericUtility genericUtility;
 
-  @PostMapping(value = "/client/shorten", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/client/shorten/{serviceType}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UrlShortenerResponseObject> shorten(
+      @PathVariable("serviceType") ServiceType serviceType,
       @RequestHeader("clientId") Integer clientId,
       @RequestHeader("authenticationKey") String authenticationKey,
       @RequestHeader("refreshKey") String refreshKey,
@@ -48,20 +49,22 @@ public class UrlShortenerController {
             .refreshKey(refreshKey).build();
     validate(requestContext);
     UrlShortenerResponseObject<UrlShortenerModel> responseObject =
-        urlShortenerService.shortenUrl(requestContext, urlShortenerModel);
+        genericUtility.findShortenerService(serviceType)
+            .shortenUrl(requestContext, urlShortenerModel);
     return new ResponseEntity<>(responseObject, responseObject.getStatusCode());
   }
 
 
-  @GetMapping(value = "/client/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/client/{clientId}/{serviceType}",
+      produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UrlShortenerResponseObject> getShortenedList(
-      @PathVariable("clientId") Integer clientId) {
+      @PathVariable("clientId") Integer clientId,
+      @PathVariable("serviceType") ServiceType serviceType) {
     RequestContext requestContext = RequestContext.builder().clientId(clientId).build();
     UrlShortenerResponseObject<List<ShortUrl>> responseObject =
-        urlShortenerService.findShortenedUrlList(requestContext);
+        genericUtility.findShortenerService(serviceType).findShortenedUrlList(requestContext);
     return new ResponseEntity<>(responseObject, responseObject.getStatusCode());
   }
-
 
   public void validate(RequestContext requestContext) {
 
