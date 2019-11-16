@@ -1,6 +1,7 @@
 package com.shortener.urlshortener.v1.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shortener.urlshortener.common.constant.CommonConstant;
 import com.shortener.urlshortener.common.model.RequestContext;
 import com.shortener.urlshortener.common.model.UrlShortenerResponseObject;
 import com.shortener.urlshortener.common.model.UrlShortenerStatusCode;
@@ -55,7 +56,8 @@ public class UrlShortenerPostgresqlServiceImpl implements UrlShortenerService {
           ShortUrl.builder().redirectedUrl(urlShortenerModel.getRedirectedUrl()).acccessCount(0)
               .expieryTime(new Timestamp(urlShortenerModel.getExpieryTime()))
               .isSingleAccess(urlShortenerModel.getIsSingleAccess()).clientId(context.getClientId())
-              .token(GenericUtility.getRandomToken(5)).build();
+              .token(CommonConstant.POSTGRESQL_KEY_PREFIX.concat(GenericUtility.getRandomToken(5)))
+              .build();
       shortUrl = shortUrlRepository.save(shortUrl);
       urlShortenerModel.setId(shortUrl.getId());
       urlShortenerModel.setToken(shortUrl.getToken());
