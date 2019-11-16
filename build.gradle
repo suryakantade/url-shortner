@@ -45,6 +45,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-jdbc:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
     compile ("org.springframework.security:spring-security-web:${springVersion}")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework:spring-jdbc:${springVersion}")
     compile("ch.qos.logback:logback-classic:${logbackVersion}")
     compile("ch.qos.logback:logback-access:${logbackVersion}")
