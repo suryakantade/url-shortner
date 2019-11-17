@@ -40,6 +40,8 @@ public class GenericUtility {
       serviceType = ServiceType.REDIS;
     } else if (token.startsWith(CommonConstant.POSTGRESQL_KEY_PREFIX)) {
       serviceType = ServiceType.POSTGRESQL;
+    } else if(token.startsWith(CommonConstant.MONGO_KEY_PREFIX)){
+      serviceType = ServiceType.MONGO;
     }
     return serviceType;
   }

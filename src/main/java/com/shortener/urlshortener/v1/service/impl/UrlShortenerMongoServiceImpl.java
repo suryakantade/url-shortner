@@ -51,9 +51,9 @@ public class UrlShortenerMongoServiceImpl implements UrlShortenerService {
     if (urlShortenerModel.isValid()) {
       ShortUrlMongo shortUrlMongo =
           ShortUrlMongo.builder().redirectedUrl(urlShortenerModel.getRedirectedUrl()).acccessCount(0)
-              .expieryTime(new Timestamp(urlShortenerModel.getExpieryTime()))
+              .expieryTime(urlShortenerModel.getExpieryTime())
               .isSingleAccess(urlShortenerModel.getIsSingleAccess()).clientId(context.getClientId())
-              .token(CommonConstant.POSTGRESQL_KEY_PREFIX.concat(GenericUtility.getRandomToken(5)))
+              .token(CommonConstant.MONGO_KEY_PREFIX.concat(GenericUtility.getRandomToken(5)))
               .build();
       shortUrlMongo = shortUrlMongoRepository.save(shortUrlMongo);
       urlShortenerModel.setId(shortUrlMongo.getId());

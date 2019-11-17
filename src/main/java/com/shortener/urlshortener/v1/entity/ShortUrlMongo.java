@@ -33,7 +33,7 @@ public class ShortUrlMongo implements Serializable {
 
   private Boolean isSingleAccess;
 
-  private Timestamp expieryTime;
+  private Long expieryTime;
 
   private Integer acccessCount;
 
