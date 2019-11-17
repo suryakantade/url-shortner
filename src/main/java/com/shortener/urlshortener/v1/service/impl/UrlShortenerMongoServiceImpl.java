@@ -29,7 +29,7 @@ import java.util.Optional;
 public class UrlShortenerMongoServiceImpl implements UrlShortenerService {
 
   @Autowired
-  @Qualifier("com.shortener.urlshortener.v1.repository.ShortUrlRepository")
+  @Qualifier("com.shortener.urlshortener.v1.repository.ShortUrlMongoRepository")
   private ShortUrlMongoRepository shortUrlMongoRepository;
 
   private ObjectMapper objectMapper;
