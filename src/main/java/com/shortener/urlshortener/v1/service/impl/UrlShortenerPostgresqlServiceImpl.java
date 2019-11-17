@@ -12,6 +12,7 @@ import com.shortener.urlshortener.v1.model.UrlShortenerModel;
 import com.shortener.urlshortener.v1.repository.ShortUrlRepository;
 import com.shortener.urlshortener.v1.service.UrlShortenerService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +91,11 @@ public class UrlShortenerPostgresqlServiceImpl implements UrlShortenerService {
     UrlShortenerResponseObject<List> responseObject =
         new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
     List<ShortUrl> shortUrls = shortUrlRepository.findByClientId(context.getClientId());
+    if(CollectionUtils.isNotEmpty(shortUrls)){
+      shortUrls.stream().forEach(e->{
+        e.setToken(genericUtility.combineHost(e.getToken()));
+      });
+    }
     responseObject.setResponseObject(shortUrls);
     return responseObject;
   }

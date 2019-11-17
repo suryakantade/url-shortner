@@ -99,7 +99,9 @@ public class UrlShortenerRedisServiceImpl implements UrlShortenerService {
     Map<String, String> shortUrls = redisClient.hgetAll(String.valueOf(context.getClientId()));
     responseObject.setResponseObject(shortUrls.values().stream().map(e -> {
       try {
-        return objectMapper.readValue(e, ShortUrl.class);
+        ShortUrl shortUrl = objectMapper.readValue(e, ShortUrl.class);
+        shortUrl.setToken(genericUtility.combineHost(shortUrl.getToken()));
+        return shortUrl;
       } catch (IOException exception) {
         log.error("data validation failed for existing configuration: {}, exception :{}", e,
             exception);

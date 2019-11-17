@@ -63,6 +63,10 @@ public class GenericUtility {
   }
 
   public String generateShortUrl( String prefix, String token) {
-    return shortUrlHost.concat(prefix).concat(token);
+    return prefix.concat(token);
+  }
+
+  public String combineHost(String token) {
+    return shortUrlHost.concat(token);
   }
 }
