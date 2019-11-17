@@ -66,7 +66,7 @@ public class UrlShortenerRedisServiceImpl implements UrlShortenerService {
         log.error("exception occured while converting short url to string : {}", e);
         throw new UrlShortenerException(UrlShortenerStatusCode.PROCESSING_ERROR);
       }
-      urlShortenerModel.setId(shortUrl.getId());
+      urlShortenerModel.setId(String.valueOf(shortUrl.getId()));
       urlShortenerModel.setToken(shortUrl.getToken());
       responseObject.setResponseObject(urlShortenerModel);
       responseObject.setStatus(UrlShortenerStatusCode.SUCCESS);

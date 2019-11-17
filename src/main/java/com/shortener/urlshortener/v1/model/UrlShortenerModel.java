@@ -23,7 +23,8 @@ import java.util.Arrays;
 @NoArgsConstructor
 @Builder
 public class UrlShortenerModel {
-  private Long id;
+  //making it string so for supporting mongo id
+  private String id;
   private Integer clientId;
   private String redirectedUrl;
   private String token;

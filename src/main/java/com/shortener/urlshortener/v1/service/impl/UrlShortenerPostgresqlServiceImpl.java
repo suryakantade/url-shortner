@@ -56,7 +56,7 @@ public class UrlShortenerPostgresqlServiceImpl implements UrlShortenerService {
               .token(CommonConstant.POSTGRESQL_KEY_PREFIX.concat(GenericUtility.getRandomToken(5)))
               .build();
       shortUrl = shortUrlRepository.save(shortUrl);
-      urlShortenerModel.setId(shortUrl.getId());
+      urlShortenerModel.setId(String.valueOf(shortUrl.getId()));
       urlShortenerModel.setToken(shortUrl.getToken());
       responseObject.setResponseObject(urlShortenerModel);
       responseObject.setStatus(UrlShortenerStatusCode.SUCCESS);
