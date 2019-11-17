@@ -1,5 +1,6 @@
 package com.shortener.urlshortener.v1.controller;
 
+import com.shortener.urlshortener.common.constant.CommonConstant;
 import com.shortener.urlshortener.common.util.GenericUtility;
 import com.shortener.urlshortener.v1.model.UrlShortenerModel;
 import lombok.extern.slf4j.Slf4j;
@@ -27,15 +28,13 @@ public class ShortenedUrlHandlerController {
   @Qualifier("com.shortener.urlshortener.common.util.GenericUtility")
   private GenericUtility genericUtility;
 
-  @GetMapping(value = "/{token}",
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public void handleShortened(
-      HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-      @PathVariable("token") String token) {
+  @GetMapping(value = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public void handleShortened(HttpServletRequest httpServletRequest,
+      HttpServletResponse httpServletResponse, @PathVariable("token") String token) {
     log.info("recievied request to redirect to destination for token: {}", token);
     UrlShortenerModel urlShortenerModel =
         genericUtility.findShortenerService(token).validateAndFetchShortenedDetails(token);
-    if(null != urlShortenerModel){
+    if (null != urlShortenerModel) {
       try {
         httpServletResponse.sendRedirect(urlShortenerModel.getRedirectedUrl());
       } catch (IOException e) {
@@ -43,12 +42,9 @@ public class ShortenedUrlHandlerController {
       }
     }
     try {
-      httpServletResponse.sendRedirect(
-            "https://github.com/suryakantade/url-shortner/blob/master/src/main/java/com/shortener/urlshortener/v1/controller/UrlShortenerController.java");
+      httpServletResponse.sendRedirect(CommonConstant.ERROR_PAGE_STRING);
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
-
-
 }

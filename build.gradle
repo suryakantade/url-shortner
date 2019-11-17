@@ -62,7 +62,6 @@ dependencies {
     compile("org.projectlombok:lombok:${lombokVersion}")
     compile("com.squareup.okhttp3:okhttp:${okHTTPVersion}")
     testCompile("junit:junit:4.12")
-    // https://mvnrepository.com/artifact/org.postgresql/postgresql
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
     compile('redis.clients:jedis:2.9.0')
     testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")

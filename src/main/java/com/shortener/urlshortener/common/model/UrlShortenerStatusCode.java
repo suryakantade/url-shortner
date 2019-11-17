@@ -17,7 +17,8 @@ public enum UrlShortenerStatusCode implements AppCode<UrlShortenerStatusCode> {
   PROCESSING_ERROR(999, "PROCESSING_ERROR"),
   DATA_VALIDATION_FAILED(1100, "DATA_VALIDATION_FAILED"),
   INVALID_CUSTOMER_SCOPE(1101, "INVALID_CUSTOMER_SCOPE"),
-  INVALID_SERVICE_TYPE(1102, "INVALID_SERVICE_TYPE");
+  INVALID_SERVICE_TYPE(1102, "INVALID_SERVICE_TYPE"),
+  INVALID_TOKEN(1103, "INVALID_TOKEN");
 
   private static Map<Integer, UrlShortenerStatusCode> FORMAT_MAP = Stream.of(UrlShortenerStatusCode.values())
       .collect(Collectors.toMap(s -> s.code, Function.identity()));

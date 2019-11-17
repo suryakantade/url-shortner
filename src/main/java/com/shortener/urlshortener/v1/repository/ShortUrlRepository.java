@@ -23,5 +23,12 @@ public interface ShortUrlRepository extends JpaRepository<ShortUrl, Integer> {
    * @return
    */
   List<ShortUrl> findByClientId(Integer clientId);
+
+  /**
+   *
+   * @param clientId
+   * @param token
+   */
+  void deleteByClientIdAndToken(Integer clientId, String token);
 }
 

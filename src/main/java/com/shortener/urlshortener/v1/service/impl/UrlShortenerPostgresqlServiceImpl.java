@@ -2,6 +2,7 @@ package com.shortener.urlshortener.v1.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shortener.urlshortener.common.constant.CommonConstant;
+import com.shortener.urlshortener.common.exception.UrlShortenerException;
 import com.shortener.urlshortener.common.model.RequestContext;
 import com.shortener.urlshortener.common.model.UrlShortenerResponseObject;
 import com.shortener.urlshortener.common.model.UrlShortenerStatusCode;
@@ -13,6 +14,7 @@ import com.shortener.urlshortener.v1.repository.ShortUrlRepository;
 import com.shortener.urlshortener.v1.service.UrlShortenerService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -93,4 +95,18 @@ public class UrlShortenerPostgresqlServiceImpl implements UrlShortenerService {
     return responseObject;
   }
 
+  public UrlShortenerResponseObject<Boolean> deleteShortenedUrl(RequestContext context,
+      String token) {
+    log.info("deleting short url configured context: {}, token: {}", context,
+        token);
+    UrlShortenerResponseObject<Boolean> responseObject = new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
+    if(StringUtils.isEmpty(token)){
+      shortUrlRepository.deleteByClientIdAndToken(context.getClientId(), token);
+    }else{
+      log.error("invalid token passed to be deleted");
+      throw new UrlShortenerException(UrlShortenerStatusCode.DATA_VALIDATION_FAILED);
+    }
+    responseObject.setResponseObject(Boolean.TRUE);
+    return responseObject;
+  }
 }

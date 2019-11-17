@@ -24,7 +24,7 @@ import java.util.Arrays;
 @Builder
 public class UrlShortenerModel {
   private Long id;
-  private Long clientId;
+  private Integer clientId;
   private String redirectedUrl;
   private String token;
   private Boolean isSingleAccess;
