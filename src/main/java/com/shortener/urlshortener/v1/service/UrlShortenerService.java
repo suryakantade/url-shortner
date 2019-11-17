@@ -2,7 +2,6 @@ package com.shortener.urlshortener.v1.service;
 
 import com.shortener.urlshortener.common.model.RequestContext;
 import com.shortener.urlshortener.common.model.UrlShortenerResponseObject;
-import com.shortener.urlshortener.v1.entity.ShortUrl;
 import com.shortener.urlshortener.v1.model.UrlShortenerModel;
 
 import java.util.List;
@@ -30,6 +29,15 @@ public interface UrlShortenerService {
    * @param context
    * @return
    */
-  UrlShortenerResponseObject<List<ShortUrl>> findShortenedUrlList(RequestContext context);
+  public UrlShortenerResponseObject<List> findShortenedUrlList(RequestContext context);
+
+  /**
+   *
+   * @param context
+   * @param token
+   * @return
+   */
+  UrlShortenerResponseObject<Boolean> deleteShortenedUrl(RequestContext context,
+      String token);
 
 }

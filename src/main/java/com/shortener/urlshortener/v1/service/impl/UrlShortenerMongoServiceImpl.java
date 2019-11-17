@@ -7,9 +7,9 @@ import com.shortener.urlshortener.common.model.RequestContext;
 import com.shortener.urlshortener.common.model.UrlShortenerResponseObject;
 import com.shortener.urlshortener.common.model.UrlShortenerStatusCode;
 import com.shortener.urlshortener.common.util.GenericUtility;
-import com.shortener.urlshortener.v1.entity.ShortUrl;
+import com.shortener.urlshortener.v1.entity.ShortUrlMongo;
 import com.shortener.urlshortener.v1.model.UrlShortenerModel;
-import com.shortener.urlshortener.v1.repository.ShortUrlRepository;
+import com.shortener.urlshortener.v1.repository.ShortUrlMongoRepository;
 import com.shortener.urlshortener.v1.service.UrlShortenerService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
@@ -23,14 +23,14 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
-@Service("com.shortener.urlshortener.v1.service.impl.UrlShortenerPostgresqlServiceImpl")
-@Slf4j
-public class UrlShortenerPostgresqlServiceImpl implements UrlShortenerService {
 
+@Slf4j
+@Service("com.shortener.urlshortener.v1.service.impl.UrlShortenerMongoServiceImpl")
+public class UrlShortenerMongoServiceImpl implements UrlShortenerService {
 
   @Autowired
   @Qualifier("com.shortener.urlshortener.v1.repository.ShortUrlRepository")
-  private ShortUrlRepository shortUrlRepository;
+  private ShortUrlMongoRepository shortUrlMongoRepository;
 
   private ObjectMapper objectMapper;
 
@@ -49,15 +49,15 @@ public class UrlShortenerPostgresqlServiceImpl implements UrlShortenerService {
     UrlShortenerResponseObject<UrlShortenerModel> responseObject =
         new UrlShortenerResponseObject<>(UrlShortenerStatusCode.DATA_VALIDATION_FAILED);
     if (urlShortenerModel.isValid()) {
-      ShortUrl shortUrl =
-          ShortUrl.builder().redirectedUrl(urlShortenerModel.getRedirectedUrl()).acccessCount(0)
+      ShortUrlMongo shortUrlMongo =
+          ShortUrlMongo.builder().redirectedUrl(urlShortenerModel.getRedirectedUrl()).acccessCount(0)
               .expieryTime(new Timestamp(urlShortenerModel.getExpieryTime()))
               .isSingleAccess(urlShortenerModel.getIsSingleAccess()).clientId(context.getClientId())
               .token(CommonConstant.POSTGRESQL_KEY_PREFIX.concat(GenericUtility.getRandomToken(5)))
               .build();
-      shortUrl = shortUrlRepository.save(shortUrl);
-      urlShortenerModel.setId(shortUrl.getId());
-      urlShortenerModel.setToken(shortUrl.getToken());
+      shortUrlMongo = shortUrlMongoRepository.save(shortUrlMongo);
+      urlShortenerModel.setId(shortUrlMongo.getId());
+      urlShortenerModel.setToken(shortUrlMongo.getToken());
       responseObject.setResponseObject(urlShortenerModel);
       responseObject.setStatus(UrlShortenerStatusCode.SUCCESS);
     } else {
@@ -70,8 +70,8 @@ public class UrlShortenerPostgresqlServiceImpl implements UrlShortenerService {
   public UrlShortenerModel validateAndFetchShortenedDetails(String token) {
     log.info("fetching and validating shortened url info for token: {}", token);
     UrlShortenerModel urlShortenerModel = null;
-    Optional<ShortUrl> shortUrlOptional = shortUrlRepository.findByToken(token);
-    ShortUrl shortUrl = shortUrlOptional.orElse(null);
+    Optional<ShortUrlMongo> shortUrlOptional = shortUrlMongoRepository.findByToken(token);
+    ShortUrlMongo shortUrl = shortUrlOptional.orElse(null);
     if (shortUrl != null && BooleanUtils.isNotTrue(shortUrl.getIsExpired())) {
       urlShortenerModel =
           UrlShortenerModel.builder().redirectedUrl(shortUrl.getRedirectedUrl()).build();
@@ -85,7 +85,7 @@ public class UrlShortenerPostgresqlServiceImpl implements UrlShortenerService {
   public UrlShortenerResponseObject<List> findShortenedUrlList(RequestContext context) {
     UrlShortenerResponseObject<List> responseObject =
         new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
-    List<ShortUrl> shortUrls = shortUrlRepository.findByClientId(context.getClientId());
+    List<ShortUrlMongo> shortUrls = shortUrlMongoRepository.findByClientId(context.getClientId());
     responseObject.setResponseObject(shortUrls);
     return responseObject;
   }
@@ -96,7 +96,7 @@ public class UrlShortenerPostgresqlServiceImpl implements UrlShortenerService {
         token);
     UrlShortenerResponseObject<Boolean> responseObject = new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
     if(StringUtils.isEmpty(token)){
-      shortUrlRepository.deleteByClientIdAndToken(context.getClientId(), token);
+      shortUrlMongoRepository.deleteByClientIdAndToken(context.getClientId(), token);
     }else{
       log.error("invalid token passed to be deleted");
       throw new UrlShortenerException(UrlShortenerStatusCode.DATA_VALIDATION_FAILED);

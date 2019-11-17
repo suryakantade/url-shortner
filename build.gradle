@@ -63,6 +63,7 @@ dependencies {
     compile("com.squareup.okhttp3:okhttp:${okHTTPVersion}")
     testCompile("junit:junit:4.12")
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}")
     compile('redis.clients:jedis:2.9.0')
     testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 }

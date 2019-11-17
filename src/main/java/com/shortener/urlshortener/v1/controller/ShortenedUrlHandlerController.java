@@ -1,8 +1,13 @@
 package com.shortener.urlshortener.v1.controller;
 
 import com.shortener.urlshortener.common.constant.CommonConstant;
+import com.shortener.urlshortener.common.exception.UrlShortenerException;
+import com.shortener.urlshortener.common.model.RequestContext;
+import com.shortener.urlshortener.common.model.UrlShortenerStatusCode;
 import com.shortener.urlshortener.common.util.GenericUtility;
+import com.shortener.urlshortener.v1.enums.WorkflowType;
 import com.shortener.urlshortener.v1.model.UrlShortenerModel;
+import com.shortener.urlshortener.v1.service.TransactionAuditService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,10 +33,17 @@ public class ShortenedUrlHandlerController {
   @Qualifier("com.shortener.urlshortener.common.util.GenericUtility")
   private GenericUtility genericUtility;
 
+  @Autowired
+  @Qualifier("com.shortener.urlshortener.v1.service.impl.TransactionAuditServiceImpl")
+  private TransactionAuditService transactionAuditService;
+
   @GetMapping(value = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
   public void handleShortened(HttpServletRequest httpServletRequest,
       HttpServletResponse httpServletResponse, @PathVariable("token") String token) {
     log.info("recievied request to redirect to destination for token: {}", token);
+    RequestContext requestContext =
+        RequestContext.builder().token(token).serviceType(genericUtility.getServiceType(token))
+            .workflowType(WorkflowType.EXPAND).build();
     UrlShortenerModel urlShortenerModel =
         genericUtility.findShortenerService(token).validateAndFetchShortenedDetails(token);
     if (null != urlShortenerModel) {
@@ -44,7 +56,13 @@ public class ShortenedUrlHandlerController {
     try {
       httpServletResponse.sendRedirect(CommonConstant.ERROR_PAGE_STRING);
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error("exception occured while redirecting to default error page: {}",
+          CommonConstant.ERROR_PAGE_STRING);
+      throw new UrlShortenerException(UrlShortenerStatusCode.PROCESSING_ERROR);
     }
+  }
+
+  public void log(RequestContext context) {
+    transactionAuditService.logTransaction(context);
   }
 }

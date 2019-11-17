@@ -8,6 +8,7 @@ import com.shortener.urlshortener.v1.service.UrlShortenerService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
 import java.util.Map;
 
 @Component("com.shortener.urlshortener.common.util.GenericUtility")
@@ -29,13 +30,18 @@ public class GenericUtility {
   }
 
   public UrlShortenerService findShortenerService(String token) {
+
+    return this.findShortenerService(getServiceType(token));
+  }
+
+  public ServiceType getServiceType(String token) {
     ServiceType serviceType = null;
     if (token.startsWith(CommonConstant.REDIS_KEY_PREFIX)) {
       serviceType = ServiceType.REDIS;
     } else if (token.startsWith(CommonConstant.POSTGRESQL_KEY_PREFIX)) {
       serviceType = ServiceType.POSTGRESQL;
     }
-    return this.findShortenerService(serviceType);
+    return serviceType;
   }
 
   public UrlShortenerService findShortenerService(ServiceType serviceType) {
@@ -43,5 +49,9 @@ public class GenericUtility {
       throw new UrlShortenerException(UrlShortenerStatusCode.INVALID_SERVICE_TYPE);
     }
     return this.shortenerServiceMap.get(serviceType);
+  }
+
+  public Long getCurrentTime() {
+    return Calendar.getInstance().getTimeInMillis();
   }
 }

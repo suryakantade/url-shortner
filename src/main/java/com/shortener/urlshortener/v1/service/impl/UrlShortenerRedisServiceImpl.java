@@ -89,8 +89,8 @@ public class UrlShortenerRedisServiceImpl implements UrlShortenerService {
   }
 
   @Override
-  public UrlShortenerResponseObject<List<ShortUrl>> findShortenedUrlList(RequestContext context) {
-    UrlShortenerResponseObject<List<ShortUrl>> responseObject =
+  public UrlShortenerResponseObject<List> findShortenedUrlList(RequestContext context) {
+    UrlShortenerResponseObject<List> responseObject =
         new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
     Map<String, String> shortUrls = redisClient.hgetAll(String.valueOf(context.getClientId()));
     responseObject.setResponseObject(shortUrls.values().stream().map(e ->{
