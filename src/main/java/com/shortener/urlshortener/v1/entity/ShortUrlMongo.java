@@ -23,7 +23,7 @@ import java.sql.Timestamp;
 public class ShortUrlMongo implements Serializable {
 
   @Id
-  private Long id;
+  private String id;
 
   private Integer clientId;
 
