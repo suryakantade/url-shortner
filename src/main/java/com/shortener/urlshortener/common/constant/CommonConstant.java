@@ -11,6 +11,5 @@ public class CommonConstant {
   public static final String POSTGRESQL_KEY_PREFIX = "p";
   public static final String MONGO_KEY_PREFIX = "m";
   public static final String ERROR_PAGE_STRING =
-      "https://github.com/suryakantade/url-shortner/blob/master/src/main/java/com/shortener"
-          + "/urlshortener/v1/controller/UrlShortenerController.java";
+      "https://github.com/suryakantade/url-shortner/wiki";
 }

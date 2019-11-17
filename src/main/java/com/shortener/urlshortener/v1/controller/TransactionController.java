@@ -36,11 +36,10 @@ public class TransactionController {
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UrlShortenerResponseObject> getShortenedList(
       @PathVariable("clientId") Integer clientId,
-      @PathVariable("serviceType") ServiceType serviceType,
       Pageable pageable) {
     RequestContext requestContext =
-        RequestContext.builder().clientId(clientId).serviceType(serviceType)
-            .workflowType(WorkflowType.LIST).build();
+        RequestContext.builder().clientId(clientId)
+            .workflowType(WorkflowType.API_AUDIT).build();
     UrlShortenerResponseObject<Page<TransactionAudit>> responseObject =
         transactionAuditService.findLastDayLog(requestContext, pageable);
     return new ResponseEntity<>(responseObject, responseObject.getStatusCode());
