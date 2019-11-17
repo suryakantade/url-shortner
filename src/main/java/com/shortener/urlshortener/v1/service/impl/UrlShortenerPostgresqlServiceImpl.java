@@ -62,7 +62,7 @@ public class UrlShortenerPostgresqlServiceImpl implements UrlShortenerService {
                   GenericUtility.getRandomToken(5))).build();
       shortUrl = shortUrlRepository.save(shortUrl);
       urlShortenerModel.setId(String.valueOf(shortUrl.getId()));
-      urlShortenerModel.setToken(shortUrl.getToken());
+      urlShortenerModel.setToken(genericUtility.combineHost(shortUrl.getToken()));
       responseObject.setResponseObject(urlShortenerModel);
       responseObject.setStatus(UrlShortenerStatusCode.SUCCESS);
     } else {
@@ -105,7 +105,7 @@ public class UrlShortenerPostgresqlServiceImpl implements UrlShortenerService {
     log.info("deleting short url configured context: {}, token: {}", context, token);
     UrlShortenerResponseObject<Boolean> responseObject =
         new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
-    if (StringUtils.isEmpty(token)) {
+    if (StringUtils.isNotEmpty(token)) {
       shortUrlRepository.deleteByClientIdAndToken(context.getClientId(), token);
     } else {
       log.error("invalid token passed to be deleted");

@@ -70,7 +70,7 @@ public class UrlShortenerRedisServiceImpl implements UrlShortenerService {
         throw new UrlShortenerException(UrlShortenerStatusCode.PROCESSING_ERROR);
       }
       urlShortenerModel.setId(String.valueOf(shortUrl.getId()));
-      urlShortenerModel.setToken(shortUrl.getToken());
+      urlShortenerModel.setToken(genericUtility.combineHost(shortUrl.getToken()));
       responseObject.setResponseObject(urlShortenerModel);
       responseObject.setStatus(UrlShortenerStatusCode.SUCCESS);
     } else {
@@ -117,7 +117,7 @@ public class UrlShortenerRedisServiceImpl implements UrlShortenerService {
     log.info("deleting short url configured context: {}, token: {}", context, token);
     UrlShortenerResponseObject<Boolean> responseObject =
         new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
-    if (StringUtils.isEmpty(token)) {
+    if (StringUtils.isNotEmpty(token)) {
       redisClient.del(token);
       String[] arr = {token};
       redisClient.hdel(String.valueOf(context.getClientId()), arr);

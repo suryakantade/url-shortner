@@ -61,7 +61,7 @@ public class UrlShortenerMongoServiceImpl implements UrlShortenerService {
                   GenericUtility.getRandomToken(5))).build();
       shortUrlMongo = shortUrlMongoRepository.save(shortUrlMongo);
       urlShortenerModel.setId(shortUrlMongo.getId());
-      urlShortenerModel.setToken(shortUrlMongo.getToken());
+      urlShortenerModel.setToken(genericUtility.combineHost(shortUrlMongo.getToken()));
       responseObject.setResponseObject(urlShortenerModel);
       responseObject.setStatus(UrlShortenerStatusCode.SUCCESS);
     } else {
