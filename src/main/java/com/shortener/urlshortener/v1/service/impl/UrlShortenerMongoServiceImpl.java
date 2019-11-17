@@ -98,7 +98,7 @@ public class UrlShortenerMongoServiceImpl implements UrlShortenerService {
     log.info("deleting short url configured context: {}, token: {}", context, token);
     UrlShortenerResponseObject<Boolean> responseObject =
         new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
-    if (StringUtils.isEmpty(token)) {
+    if (StringUtils.isNotEmpty(token)) {
       shortUrlMongoRepository.deleteByClientIdAndToken(context.getClientId(), token);
     } else {
       log.error("invalid token passed to be deleted");
