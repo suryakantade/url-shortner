@@ -26,7 +26,7 @@ import java.sql.Timestamp;
 @Builder
 @Entity(name = "SHORT_URL")
 @Table
-public class ShortUrl extends ShortUrlCommon implements Serializable{
+public class ShortUrl implements Serializable{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

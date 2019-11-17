@@ -11,11 +11,11 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 
-@Configuration
+/*@Configuration
 @EnableMongoRepositories(basePackages = "com.shortener.urlshortener")
-@Slf4j
+@Slf4j*/
 public class MongoConnectionConfig {
-  @Value("${db.mongo.uri}")
+  /*@Value("${db.mongo.uri}")
   private String uri;
 
   private MongoDbFactory mongoDbFactory() {
@@ -30,5 +30,5 @@ public class MongoConnectionConfig {
   @Bean(name = "mongoTemplate")
   public MongoTemplate getMongoTemplate() {
     return new MongoTemplate(mongoDbFactory());
-  }
+  }*/
 }

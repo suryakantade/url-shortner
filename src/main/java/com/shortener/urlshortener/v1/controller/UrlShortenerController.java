@@ -4,8 +4,6 @@ package com.shortener.urlshortener.v1.controller;
 import com.shortener.urlshortener.common.model.RequestContext;
 import com.shortener.urlshortener.common.model.UrlShortenerResponseObject;
 import com.shortener.urlshortener.common.util.GenericUtility;
-import com.shortener.urlshortener.v1.entity.ShortUrl;
-import com.shortener.urlshortener.v1.entity.ShortUrlCommon;
 import com.shortener.urlshortener.v1.enums.ServiceType;
 import com.shortener.urlshortener.v1.enums.WorkflowType;
 import com.shortener.urlshortener.v1.model.UrlShortenerModel;

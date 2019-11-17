@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 @Document(collection = "SHORT_URL")
-public class ShortUrlMongo extends ShortUrlCommon implements Serializable {
+public class ShortUrlMongo implements Serializable {
 
   @Id
   private Long id;

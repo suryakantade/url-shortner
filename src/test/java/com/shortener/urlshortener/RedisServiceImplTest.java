@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class RedisServiceImplTest {
 
 
@@ -79,7 +79,7 @@ public class RedisServiceImplTest {
   @Test
   public void shortenUrl() {
 
-      Mockito.when(redisClient.hset(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+      Mockito.when(redisClient.hset(Mockito.eq(String.valueOf(clientId)), Mockito.anyString(), Mockito.anyString()))
           .thenReturn(savedId);
       Mockito.when(redisClient.set(Mockito.any(String.class), Mockito.anyString()))
           .thenReturn(STATUS_CODE_SUCCESS);
@@ -112,7 +112,7 @@ public class RedisServiceImplTest {
 
       Mockito.when(objectMapper.readValue(mapper.writeValueAsString(shortUrl), ShortUrl.class))
           .thenReturn(shortUrl);
-      UrlShortenerResponseObject<List<ShortUrl>> response =
+      UrlShortenerResponseObject<List> response =
           urlShortenerRedisService.findShortenedUrlList(requestContext);
       inOrder.verify(redisClient).hgetAll(String.valueOf(clientId));
       inOrder.verify(objectMapper).readValue(mapper.writeValueAsString(shortUrl), ShortUrl.class);

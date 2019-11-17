@@ -13,6 +13,7 @@ import com.shortener.urlshortener.v1.entity.ShortUrl;
 import com.shortener.urlshortener.v1.model.UrlShortenerModel;
 import com.shortener.urlshortener.v1.service.UrlShortenerService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -101,6 +103,24 @@ public class UrlShortenerRedisServiceImpl implements UrlShortenerService {
         throw new UrlShortenerException(UrlShortenerStatusCode.PROCESSING_ERROR);
       }
     }).collect(Collectors.toList()));
+    return responseObject;
+  }
+
+  @Override
+  public UrlShortenerResponseObject<Boolean> deleteShortenedUrl(RequestContext context,
+      String token) {
+    log.info("deleting short url configured context: {}, token: {}", context,
+        token);
+    UrlShortenerResponseObject<Boolean> responseObject = new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
+    if(StringUtils.isEmpty(token)){
+      redisClient.del(token);
+      String[] arr= {token};
+      redisClient.hdel(String.valueOf(context.getClientId()), arr);
+    }else{
+      log.error("invalid token passed to be deleted");
+      throw new UrlShortenerException(UrlShortenerStatusCode.DATA_VALIDATION_FAILED);
+    }
+    responseObject.setResponseObject(Boolean.TRUE);
     return responseObject;
   }
 

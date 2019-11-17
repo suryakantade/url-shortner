@@ -3,10 +3,10 @@ package com.shortener.urlshortener;
 import com.shortener.urlshortener.common.model.RequestContext;
 import com.shortener.urlshortener.common.model.UrlShortenerResponseObject;
 import com.shortener.urlshortener.common.model.UrlShortenerStatusCode;
-import com.shortener.urlshortener.v1.entity.ShortUrl;
+import com.shortener.urlshortener.v1.entity.ShortUrlMongo;
 import com.shortener.urlshortener.v1.model.UrlShortenerModel;
-import com.shortener.urlshortener.v1.repository.ShortUrlRepository;
-import com.shortener.urlshortener.v1.service.impl.UrlShortenerPostgresqlServiceImpl;
+import com.shortener.urlshortener.v1.repository.ShortUrlMongoRepository;
+import com.shortener.urlshortener.v1.service.impl.UrlShortenerMongoServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -26,34 +26,37 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+
 @RunWith(MockitoJUnitRunner.Silent.class)
-public class PostgresServiceImplTest {
+public class MongoServiceImplTest {
+
 
   @InjectMocks
-  UrlShortenerPostgresqlServiceImpl urlShortenerPostgresqlService;
+  UrlShortenerMongoServiceImpl urlShortenerPostgresqlService;
 
   @Mock
-  private ShortUrlRepository shortUrlRepository;
+  private ShortUrlMongoRepository shortUrlMongoRepository;
 
   private InOrder inOrder;
   RequestContext requestContext = null;
   UrlShortenerModel urlShortenerModel = null;
-  ShortUrl shortUrl = null;
+  ShortUrlMongo shortUrl = null;
   String token = "raYzdD";
   Integer clientId = 1;
 
   @Before
   public void init() {
-    inOrder = Mockito.inOrder(shortUrlRepository);
+    inOrder = Mockito.inOrder(shortUrlMongoRepository);
 
     requestContext =
-        RequestContext.builder().clientId(clientId).refreshKey("abc").authenticationKey("123").build();
+        RequestContext.builder().clientId(clientId).refreshKey("abc").authenticationKey("123")
+            .build();
 
     urlShortenerModel = UrlShortenerModel.builder().redirectedUrl(
         "https://www.quora.com/unanswered/What-are-some-of-the-funniest-questions-asked-on-Quora")
         .clientId(1).expieryTime(1573768584L).build();
 
-    shortUrl = ShortUrl.builder().redirectedUrl(urlShortenerModel.getRedirectedUrl())
+    shortUrl = ShortUrlMongo.builder().redirectedUrl(urlShortenerModel.getRedirectedUrl())
         .clientId(Integer.valueOf(urlShortenerModel.getClientId())).build();
 
   }
@@ -66,10 +69,11 @@ public class PostgresServiceImplTest {
 
   @Test
   public void shortenUrl() {
-    Mockito.when(shortUrlRepository.save(Mockito.any(ShortUrl.class))).thenReturn(shortUrl);
+    Mockito.when(shortUrlMongoRepository.save(Mockito.any(ShortUrlMongo.class)))
+        .thenReturn(shortUrl);
     UrlShortenerResponseObject<UrlShortenerModel> response =
         urlShortenerPostgresqlService.shortenUrl(requestContext, urlShortenerModel);
-    inOrder.verify(shortUrlRepository).save(Mockito.any(ShortUrl.class));
+    inOrder.verify(shortUrlMongoRepository).save(Mockito.any(ShortUrlMongo.class));
     inOrder.verifyNoMoreInteractions();
     assertEquals(UrlShortenerStatusCode.SUCCESS, response.getStatus());
   }
@@ -77,20 +81,21 @@ public class PostgresServiceImplTest {
 
   @Test
   public void validateAndFetchShortenedDetails() {
-    Mockito.when(shortUrlRepository.findByToken(token)).thenReturn(Optional.of(shortUrl));
+    Mockito.when(shortUrlMongoRepository.findByToken(token)).thenReturn(Optional.of(shortUrl));
     UrlShortenerModel response =
         urlShortenerPostgresqlService.validateAndFetchShortenedDetails(token);
-    inOrder.verify(shortUrlRepository).findByToken(token);
+    inOrder.verify(shortUrlMongoRepository).findByToken(token);
     inOrder.verifyNoMoreInteractions();
     assertNotNull(response.getRedirectedUrl());
   }
 
   @Test
   public void findShortenedUrlList() {
-    Mockito.when(shortUrlRepository.findByClientId(clientId)).thenReturn(Arrays.asList(shortUrl));
+    Mockito.when(shortUrlMongoRepository.findByClientId(clientId))
+        .thenReturn(Arrays.asList(shortUrl));
     UrlShortenerResponseObject<List> response =
         urlShortenerPostgresqlService.findShortenedUrlList(requestContext);
-    inOrder.verify(shortUrlRepository).findByClientId(clientId);
+    inOrder.verify(shortUrlMongoRepository).findByClientId(clientId);
     inOrder.verifyNoMoreInteractions();
     assertNotNull(response.getResponseObject());
     assertTrue(CollectionUtils.isNotEmpty(response.getResponseObject()));
