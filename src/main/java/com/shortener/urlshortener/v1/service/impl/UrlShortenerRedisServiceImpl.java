@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,6 +33,10 @@ public class UrlShortenerRedisServiceImpl implements UrlShortenerService {
   @Autowired
   @Qualifier("com.shortener.urlshortener.common.util.RedisClient")
   private RedisClient redisClient;
+
+  @Autowired
+  @Qualifier("com.shortener.urlshortener.common.util.GenericUtility")
+  private GenericUtility genericUtility;
 
   private ObjectMapper objectMapper;
 
@@ -56,8 +59,8 @@ public class UrlShortenerRedisServiceImpl implements UrlShortenerService {
           ShortUrl.builder().redirectedUrl(urlShortenerModel.getRedirectedUrl()).acccessCount(0)
               .expieryTime(new Timestamp(urlShortenerModel.getExpieryTime()))
               .isSingleAccess(urlShortenerModel.getIsSingleAccess()).clientId(context.getClientId())
-              .token(CommonConstant.REDIS_KEY_PREFIX.concat(GenericUtility.getRandomToken(5)))
-              .build();
+              .token(genericUtility.generateShortUrl(CommonConstant.REDIS_KEY_PREFIX,
+                  GenericUtility.getRandomToken(5))).build();
       try {
         redisClient.hset(String.valueOf(context.getClientId()), shortUrl.getToken(),
             objectMapper.writeValueAsString(shortUrl));
@@ -82,8 +85,7 @@ public class UrlShortenerRedisServiceImpl implements UrlShortenerService {
     UrlShortenerModel urlShortenerModel = null;
     String shortUrl = redisClient.get(token);
     if (shortUrl != null) {
-      urlShortenerModel =
-          UrlShortenerModel.builder().redirectedUrl(shortUrl).build();
+      urlShortenerModel = UrlShortenerModel.builder().redirectedUrl(shortUrl).build();
     } else {
       log.error("No short url found for token : {}", token);
     }
@@ -95,11 +97,12 @@ public class UrlShortenerRedisServiceImpl implements UrlShortenerService {
     UrlShortenerResponseObject<List> responseObject =
         new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
     Map<String, String> shortUrls = redisClient.hgetAll(String.valueOf(context.getClientId()));
-    responseObject.setResponseObject(shortUrls.values().stream().map(e ->{
+    responseObject.setResponseObject(shortUrls.values().stream().map(e -> {
       try {
-        return objectMapper.readValue(e,ShortUrl.class );
+        return objectMapper.readValue(e, ShortUrl.class);
       } catch (IOException exception) {
-        log.error("data validation failed for existing configuration: {}, exception :{}", e, exception);
+        log.error("data validation failed for existing configuration: {}, exception :{}", e,
+            exception);
         throw new UrlShortenerException(UrlShortenerStatusCode.PROCESSING_ERROR);
       }
     }).collect(Collectors.toList()));
@@ -109,14 +112,14 @@ public class UrlShortenerRedisServiceImpl implements UrlShortenerService {
   @Override
   public UrlShortenerResponseObject<Boolean> deleteShortenedUrl(RequestContext context,
       String token) {
-    log.info("deleting short url configured context: {}, token: {}", context,
-        token);
-    UrlShortenerResponseObject<Boolean> responseObject = new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
-    if(StringUtils.isEmpty(token)){
+    log.info("deleting short url configured context: {}, token: {}", context, token);
+    UrlShortenerResponseObject<Boolean> responseObject =
+        new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
+    if (StringUtils.isEmpty(token)) {
       redisClient.del(token);
-      String[] arr= {token};
+      String[] arr = {token};
       redisClient.hdel(String.valueOf(context.getClientId()), arr);
-    }else{
+    } else {
       log.error("invalid token passed to be deleted");
       throw new UrlShortenerException(UrlShortenerStatusCode.DATA_VALIDATION_FAILED);
     }

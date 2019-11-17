@@ -17,6 +17,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackages = "com.shortener.urlshortener")
 @Slf4j
 public class MongoConnectionConfig {
+
+
   @Value("${db.mongo.uri}")
   private String uri;
 

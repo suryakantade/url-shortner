@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +30,10 @@ public class UrlShortenerMongoServiceImpl implements UrlShortenerService {
   @Autowired
   @Qualifier("com.shortener.urlshortener.v1.repository.ShortUrlMongoRepository")
   private ShortUrlMongoRepository shortUrlMongoRepository;
+
+  @Autowired
+  @Qualifier("com.shortener.urlshortener.common.util.GenericUtility")
+  private GenericUtility genericUtility;
 
   private ObjectMapper objectMapper;
 
@@ -50,11 +53,11 @@ public class UrlShortenerMongoServiceImpl implements UrlShortenerService {
         new UrlShortenerResponseObject<>(UrlShortenerStatusCode.DATA_VALIDATION_FAILED);
     if (urlShortenerModel.isValid()) {
       ShortUrlMongo shortUrlMongo =
-          ShortUrlMongo.builder().redirectedUrl(urlShortenerModel.getRedirectedUrl()).acccessCount(0)
-              .expieryTime(urlShortenerModel.getExpieryTime())
+          ShortUrlMongo.builder().redirectedUrl(urlShortenerModel.getRedirectedUrl())
+              .acccessCount(0).expieryTime(urlShortenerModel.getExpieryTime())
               .isSingleAccess(urlShortenerModel.getIsSingleAccess()).clientId(context.getClientId())
-              .token(CommonConstant.MONGO_KEY_PREFIX.concat(GenericUtility.getRandomToken(5)))
-              .build();
+              .token(genericUtility.generateShortUrl(CommonConstant.MONGO_KEY_PREFIX,
+                  GenericUtility.getRandomToken(5))).build();
       shortUrlMongo = shortUrlMongoRepository.save(shortUrlMongo);
       urlShortenerModel.setId(shortUrlMongo.getId());
       urlShortenerModel.setToken(shortUrlMongo.getToken());
@@ -92,12 +95,12 @@ public class UrlShortenerMongoServiceImpl implements UrlShortenerService {
 
   public UrlShortenerResponseObject<Boolean> deleteShortenedUrl(RequestContext context,
       String token) {
-    log.info("deleting short url configured context: {}, token: {}", context,
-        token);
-    UrlShortenerResponseObject<Boolean> responseObject = new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
-    if(StringUtils.isEmpty(token)){
+    log.info("deleting short url configured context: {}, token: {}", context, token);
+    UrlShortenerResponseObject<Boolean> responseObject =
+        new UrlShortenerResponseObject<>(UrlShortenerStatusCode.SUCCESS);
+    if (StringUtils.isEmpty(token)) {
       shortUrlMongoRepository.deleteByClientIdAndToken(context.getClientId(), token);
-    }else{
+    } else {
       log.error("invalid token passed to be deleted");
       throw new UrlShortenerException(UrlShortenerStatusCode.DATA_VALIDATION_FAILED);
     }

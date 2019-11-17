@@ -5,6 +5,7 @@ import com.shortener.urlshortener.common.exception.UrlShortenerException;
 import com.shortener.urlshortener.common.model.UrlShortenerStatusCode;
 import com.shortener.urlshortener.v1.enums.ServiceType;
 import com.shortener.urlshortener.v1.service.UrlShortenerService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -13,6 +14,10 @@ import java.util.Map;
 
 @Component("com.shortener.urlshortener.common.util.GenericUtility")
 public class GenericUtility {
+
+  @Value("${short.url.host}")
+  private String shortUrlHost;
+
 
   @Resource(name = "urlShortenerServiceMap")
   private Map<ServiceType, UrlShortenerService> shortenerServiceMap;
@@ -40,7 +45,7 @@ public class GenericUtility {
       serviceType = ServiceType.REDIS;
     } else if (token.startsWith(CommonConstant.POSTGRESQL_KEY_PREFIX)) {
       serviceType = ServiceType.POSTGRESQL;
-    } else if(token.startsWith(CommonConstant.MONGO_KEY_PREFIX)){
+    } else if (token.startsWith(CommonConstant.MONGO_KEY_PREFIX)) {
       serviceType = ServiceType.MONGO;
     }
     return serviceType;
@@ -55,5 +60,9 @@ public class GenericUtility {
 
   public Long getCurrentTime() {
     return Calendar.getInstance().getTimeInMillis();
+  }
+
+  public String generateShortUrl( String prefix, String token) {
+    return shortUrlHost.concat(prefix).concat(token);
   }
 }
