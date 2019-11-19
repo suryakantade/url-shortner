@@ -51,15 +51,16 @@ public class ShortenedUrlHandlerController {
         httpServletResponse.sendRedirect(urlShortenerModel.getRedirectedUrl());
       } catch (IOException e) {
         log.error("exception occured while redirecting");
+        try {
+          httpServletResponse.sendRedirect(CommonConstant.ERROR_PAGE_STRING);
+        } catch (IOException ex) {
+          log.error("exception occured while redirecting to default error page: {} exception: {}",
+              CommonConstant.ERROR_PAGE_STRING, ex);
+          throw new UrlShortenerException(UrlShortenerStatusCode.PROCESSING_ERROR);
+        }
       }
     }
-    try {
-      httpServletResponse.sendRedirect(CommonConstant.ERROR_PAGE_STRING);
-    } catch (IOException e) {
-      log.error("exception occured while redirecting to default error page: {}",
-          CommonConstant.ERROR_PAGE_STRING);
-      throw new UrlShortenerException(UrlShortenerStatusCode.PROCESSING_ERROR);
-    }
+
   }
 
   public void log(RequestContext context) {
