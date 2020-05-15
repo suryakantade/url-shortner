@@ -5,12 +5,8 @@
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="com..new-project.main" target="1.8" />
-      <module name="com..new-project.test" target="1.8" />
-      <module name="com.peoplehum.new-project.main" target="1.8" />
-      <module name="com.peoplehum.new-project.test" target="1.8" />
-      <module name="com.shortener.new-project.main" target="1.8" />
-      <module name="com.shortener.new-project.test" target="1.8" />
+      <module name="com.shortener.crud_project.main" target="1.8" />
+      <module name="com.shortener.crud_project.test" target="1.8" />
       <module name="com.shortener.url-shortener.main" target="1.8" />
       <module name="com.shortener.url-shortener.test" target="1.8" />
     </bytecodeTargetLevel>
