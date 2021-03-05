@@ -1,8 +1,6 @@
 package com.surya.crudproject.common.exception.error;
 
-/**
- * Created by shubham on 21/04/17.
- */
+
 public class CodeDesc {
 
   private int code;
